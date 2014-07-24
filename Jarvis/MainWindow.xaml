@@ -1,0 +1,54 @@
+﻿<Window x:Class="Jarvis.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" 
+        Topmost="True" 
+        SizeToContent="WidthAndHeight" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        Loaded="onWindowLoaded" 
+        Closed="onWindowClosed"
+        ContentRendered="onShown"
+        Closing="onClosing"
+        Visibility="{Binding CommandWindowVisible, Mode=TwoWay}"
+        >
+
+    <Window.Resources>
+
+        <Style TargetType="ListBoxItem">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightGreen"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightGreen"/>
+            </Style.Resources>
+        </Style>
+        
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="32" />
+            <Setter Property="FontFamily" Value="Verdana" />
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="fontStyling">
+            <Setter Property="FontSize" Value="10pt" />
+            <Setter Property="FontFamily" Value="Courier New" />
+            <Setter Property="Foreground" Value="#00FF00" />
+            <Setter Property="Background" Value="Black" />
+        </Style>
+        
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource fontStyling}" />
+        <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource fontStyling}" />
+
+        <!-- Add other targets such as CheckBox here. -->
+
+    </Window.Resources>
+    
+    <DockPanel LastChildFill="True">
+        <TextBox Name="commandBox" 
+                 DockPanel.Dock="Top" 
+                 Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}" 
+                 Width="200" 
+                 KeyUp="onCommandKeyUp"/>
+        <ListBox Grid.Row="2" 
+                 Visibility="{Binding MatchesVisible}" 
+                 ItemsSource="{Binding Matches}"
+                 SelectedIndex="{Binding SelectedMatchIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </DockPanel>
+</Window>
