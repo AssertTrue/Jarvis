@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -68,7 +69,14 @@ namespace Jarvis.alias
                     argumentsAsString += aArguments[index] + " ";
                 }
 
-                System.Diagnostics.Process.Start(fileName, argumentsAsString.Trim());
+                try
+                {
+                    System.Diagnostics.Process.Start(fileName, argumentsAsString.Trim());
+                }
+                catch (Win32Exception aException)
+                {
+                    System.Windows.MessageBox.Show(aException.Message, "Error executing command...");
+                }
             }
 
             return false;
