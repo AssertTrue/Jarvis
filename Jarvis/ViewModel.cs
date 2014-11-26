@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Jarvis.alias;
 using Jarvis.command;
+using Rhino.Mocks.Constraints;
 
 namespace Jarvis
 {
@@ -177,7 +178,14 @@ namespace Jarvis
 
         private static string generateFilePath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "startupcommands.jarvis");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "startupcommands.jarvis");
+            string[] commandLineArgs = Environment.GetCommandLineArgs();
+            if (commandLineArgs.Length > 1
+                && commandLineArgs[1].Length > 0)
+            {
+                path = commandLineArgs[1];
+            }
+            return path;
         }
         #endregion
 
